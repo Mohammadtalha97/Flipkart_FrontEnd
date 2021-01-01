@@ -1,13 +1,9 @@
 import React from "react";
-import Header from "../../components/Header";
+
+import Layout from "../../components/Layout";
 
 const HomePage = () => {
-  return (
-    <div>
-      <Header />
-    </div>
-  );
+  return <Layout>Homepage</Layout>;
 };
 
 export default HomePage;
-//rafce
