@@ -9,6 +9,11 @@ const initialState = {
     under20k: [],
     under30k: [],
   },
+  pageRequest: false,
+  page: {},
+  error: null,
+  productDetails: {},
+  loading: false,
 };
 
 const productReducer = (state = initialState, action) => {
@@ -20,6 +25,50 @@ const productReducer = (state = initialState, action) => {
         productsByPrice: {
           ...action.payload.productByPrice,
         },
+      };
+      break;
+    case productConstant.GET_PRODUCT_PAGE_REQUEST:
+      state = {
+        ...state,
+        pageRequest: true,
+      };
+      break;
+
+    case productConstant.GET_PRODUCT_PAGE_SUCCESS:
+      state = {
+        ...state,
+        pageRequest: false,
+        page: action.payload.page,
+      };
+      break;
+
+    case productConstant.GET_PRODUCT_PAGE_FAILUER:
+      state = {
+        ...state,
+        pageRequest: false,
+        error: action.payload.error,
+      };
+      break;
+    case productConstant.GET_PRODUCT_DETAILS_BY_ID_REQUEST:
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+
+    case productConstant.GET_PRODUCT_DETAILS_BY_ID_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+        productDetails: action.payload.productDetails,
+      };
+      break;
+
+    case productConstant.GET_PRODUCT_DETAILS_BY_ID_FAILUER:
+      state = {
+        ...state,
+        loading: false,
+        error: action.payload.error,
       };
       break;
     default:
