@@ -13,7 +13,6 @@ const ProductListPage = (props) => {
   const renderProduct = () => {
     const params = getParams(props.location.search);
 
-    console.log("params", params);
     let content = null;
     switch (params.type) {
       case "store/":

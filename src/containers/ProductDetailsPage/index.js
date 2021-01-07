@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Layout from "../../components/Layout";
 import { MaterialButton } from "../../components/MaterialUI";
-import { getProductDetailsById } from "../../redux/actions";
+import { addToCart, getProductDetailsById } from "../../redux/actions";
 import { generatePublicURL } from "../../urlConfig";
 
 const ProductDetailPage = (props) => {
@@ -34,7 +34,7 @@ const ProductDetailPage = (props) => {
         <div className="flexRow">
           <div className="verticalImageStack">
             {product.productDetails.productPictures.map((thumb, index) => (
-              <div className="thumbnail active">
+              <div className="thumbnail ">
                 <img src={generatePublicURL(thumb.img)} alt={thumb.img} />
               </div>
             ))}
@@ -64,6 +64,12 @@ const ProductDetailPage = (props) => {
                   marginRight: "5px",
                 }}
                 icon={<IoMdCart />}
+                onClick={() => {
+                  const { _id, name, price } = product.productDetails;
+                  const img = product.productDetails.productPictures[0].img;
+                  dispatch(addToCart({ _id, name, price, img }));
+                  props.history.push("/cart");
+                }}
               />
               <MaterialButton
                 title="BUY NOW"
