@@ -3,6 +3,14 @@
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
+body {
+  background: #f1f3f6;
+}
+
 .flexRow {
   display: flex;
+}
+
+.sb {
+  justify-content: space-between;
 }

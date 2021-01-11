@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from "../redux/store";
 
 import { api } from "../urlConfig";
 
@@ -9,6 +10,14 @@ const axiosInstance = axios.create({
   headers: {
     authorization: token ? `Beare ${token}` : ``,
   },
+});
+
+axiosInstance.interceptors.request.use((req) => {
+  const { auth } = store.getState();
+  if (auth.token) {
+    req.headers.authorization = `Beare ${auth.token}`;
+  }
+  return req;
 });
 
 export default axiosInstance;
