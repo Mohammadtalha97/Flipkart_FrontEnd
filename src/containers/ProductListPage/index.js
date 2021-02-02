@@ -7,6 +7,7 @@ import Layout from "../../components/Layout";
 import getParams from "../../helpers/getParams";
 import ProductPage from "./PoductPage";
 import ProductStore from "./ProductStore";
+import ClothingAndAccessories from "./ClothingAndAccessories";
 
 const ProductListPage = (props) => {
   //here the props are URL values
@@ -22,8 +23,8 @@ const ProductListPage = (props) => {
         content = <ProductPage {...props} />;
         break;
       default:
-        content = null;
-        break;
+        // content = null;
+        content = <ClothingAndAccessories {...props} />;
     }
     return content;
   };

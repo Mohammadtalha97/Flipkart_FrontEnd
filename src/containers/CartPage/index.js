@@ -8,6 +8,7 @@ import Card from "../../components/UI/Card";
 import { addToCart, updateCart, getCartItems } from "../../redux/actions";
 import CartItem from "./CartItem";
 import { MaterialButton } from "../../components/MaterialUI";
+import PriceDetails from "../../components/PriceDetails";
 
 const CartPage = (props) => {
   const cart = useSelector((state) => state.cart);
@@ -35,6 +36,21 @@ const CartPage = (props) => {
     const { name, price, img } = cartItems[_id];
     dispatch(addToCart({ _id, name, price, img }, -1));
   };
+
+  if (props.onlyCartItems) {
+    return (
+      <>
+        {Object.keys(cartItems).map((key, index) => (
+          <CartItem
+            key={index}
+            cartItem={cartItems[key]}
+            onQuantityIncrement={onQuantityIncrement}
+            onQuantityDecrement={onQuantityDecrement}
+          />
+        ))}
+      </>
+    );
+  }
 
   return (
     <Layout>
@@ -76,7 +92,21 @@ const CartPage = (props) => {
           style={{
             width: "380px",
           }}
-        ></Card>
+        >
+          {/* Price Component */}
+          <PriceDetails
+            totalItem={Object.keys(cart.cartItems).reduce(function (qty, key) {
+              return qty + cart.cartItems[key].qty;
+            }, 0)}
+            totalPrice={Object.keys(cart.cartItems).reduce(
+              (totalPrice, key) => {
+                const { price, qty } = cart.cartItems[key];
+                return totalPrice + price * qty;
+              },
+              0
+            )}
+          />
+        </Card>
       </div>
     </Layout>
   );

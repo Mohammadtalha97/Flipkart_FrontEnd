@@ -7,9 +7,10 @@ import {
   MaterialButton,
   MaterialInput,
 } from "../../components/MaterialUI";
+import PriceDetails from "../../components/PriceDetails";
 // import PriceDetails from "../../components/PriceDetails";
 import Card from "../../components/UI/Card";
-import { getAddress, getCartItems } from "../../redux/actions";
+import { addOrder, getAddress, getCartItems } from "../../redux/actions";
 import CartPage from "../CartPage";
 import AddressForm from "./AddreessForm";
 
@@ -140,31 +141,31 @@ const CheckoutPage = (props) => {
     setPaymentOption(true);
   };
 
-  // const onConfirmOrder = () => {
-  //   const totalAmount = Object.keys(cart.cartItems).reduce(
-  //     (totalPrice, key) => {
-  //       const { price, qty } = cart.cartItems[key];
-  //       return totalPrice + price * qty;
-  //     },
-  //     0
-  //   );
-  //   const items = Object.keys(cart.cartItems).map((key) => ({
-  //     productId: key,
-  //     payablePrice: cart.cartItems[key].price,
-  //     purchasedQty: cart.cartItems[key].qty,
-  //   }));
-  //   const payload = {
-  //     addressId: selectedAddress._id,
-  //     totalAmount,
-  //     items,
-  //     paymentStatus: "pending",
-  //     paymentType: "cod",
-  //   };
+  const onConfirmOrder = () => {
+    const totalAmount = Object.keys(cart.cartItems).reduce(
+      (totalPrice, key) => {
+        const { price, qty } = cart.cartItems[key];
+        return totalPrice + price * qty;
+      },
+      0
+    );
+    const items = Object.keys(cart.cartItems).map((key) => ({
+      productId: key,
+      payablePrice: cart.cartItems[key].price,
+      purchasedQty: cart.cartItems[key].qty,
+    }));
+    const payload = {
+      addressId: selectedAddress._id,
+      totalAmount,
+      items,
+      paymentStatus: "pending",
+      paymentType: "cod",
+    };
 
-  //   console.log(payload);
-  //   dispatch(addOrder(payload));
-  //   setConfirmOrder(true);
-  // };
+    console.log(payload);
+    dispatch(addOrder(payload));
+    setConfirmOrder(true);
+  };
 
   useEffect(() => {
     auth.authenticated && dispatch(getAddress());
@@ -181,7 +182,9 @@ const CheckoutPage = (props) => {
     //user.address.length === 0 && setNewAddress(true);
   }, [user.address]);
 
+  console.log("user-->", user);
   useEffect(() => {
+    console.log("CALLED");
     if (confirmOrder && user.placedOrderId) {
       props.history.push(`/order_details/${user.placedOrderId}`);
     }
@@ -306,7 +309,7 @@ const CheckoutPage = (props) => {
                   </div>
                   <MaterialButton
                     title="CONFIRM ORDER"
-                    // onClick={onConfirmOrder}
+                    onClick={onConfirmOrder}
                     style={{
                       width: "200px",
                       margin: "0 0 20px 20px",
@@ -319,7 +322,7 @@ const CheckoutPage = (props) => {
         </div>
 
         {/* Price Component */}
-        {/* <PriceDetails
+        <PriceDetails
           totalItem={Object.keys(cart.cartItems).reduce(function (qty, key) {
             return qty + cart.cartItems[key].qty;
           }, 0)}
@@ -327,7 +330,7 @@ const CheckoutPage = (props) => {
             const { price, qty } = cart.cartItems[key];
             return totalPrice + price * qty;
           }, 0)}
-        /> */}
+        />
       </div>
     </Layout>
   );
